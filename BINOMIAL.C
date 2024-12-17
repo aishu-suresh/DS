@@ -14,7 +14,8 @@ heap->arr=(int*)malloc(sizeof(int)*capacity);
 heap->size=0;
 heap->capacity=capacity;
 return heap;
-}int parent(int i)
+}
+int parent(int i)
 {
 return(i-1)/2;
 }
@@ -32,7 +33,7 @@ int temp=*a;
 *a=*b;
 *b=temp;
 }
-void heapifyup(struct MinHeap*heap,int index)
+void heapifyUp(struct MinHeap*heap,int index)
 {
 while(index>0&&heap->arr[parent(index)]>heap->arr[index])
 {
@@ -47,7 +48,11 @@ int right=rightchild(index);
 int smallest=index;
 if(left<heap->size&&heap->arr[left]<heap->arr[smallest])
 {
-smallest=right
+smallest=left;
+}
+if(right<heap->size&&heap->arr[right]<heap->arr[smallest])
+{
+smallest=right;
 }
 if(smallest!=index)
 {
@@ -60,13 +65,13 @@ void insert(struct MinHeap*heap,int value)
 if(heap->size==heap->capacity)
 {
 printf("Heap is full.cannot insert.\n");
-return 0;
+return;
 }
-heap->arr[head->size]=value;
+heap->arr[heap->size]=value;
 heap->size++;
-heapifyup(heap,heap->size-1);
+heapifyUp(heap,heap->size-1);
 }
-int extract Min(struct MinHeap*heap)
+int extractMin(struct MinHeap*heap)
 {
 int min;
 if(heap->size==0)
@@ -80,13 +85,13 @@ heap->size--;
 heapifyDown(heap,0);
 return min;
 }
-void print Heap(struct MinHeap*heap)
+void printHeap(struct MinHeap*heap)
 {
 int i;
 printf("Heap");
 for(i=0;i<heap->size;i++)
 {
-printf("%d",heap->arr[i]);
+printf("\t%d",heap->arr[i]);
 }
 printf("\n");
 }
@@ -100,12 +105,12 @@ insert(heap,20);
 insert(heap,5);
 insert(heap,15);
 insert(heap,30);
-insert("initial");
+printf("Initial");
 printHeap(heap);
-min=extract Min(heap);
+min=extractMin(heap);
 printf("Extracted Min:%d\n",min);
 printf("Heap after extraction:");
-print Heap(heap);
+printHeap(heap);
 getch();
 }
 
